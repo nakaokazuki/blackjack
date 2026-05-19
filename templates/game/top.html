@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Top{% endblock %}
+{% block content %}
+<h1>トップ</h1>
+{% if user.is_authenticated %}
+  <p>ログイン中: {{ user.username }} / ポイント: {{ user.points }}</p>
+  <p><a href="{% url 'game' %}">ゲームスタート</a></p>
+{% else %}
+  <p>プレイするには<a href="{% url 'login' %}">ログイン</a>または<a href="{% url 'register' %}">登録</a>してください。</p>
+{% endif %}
+{% endblock %}
