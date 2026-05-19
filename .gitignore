@@ -1,0 +1,23 @@
+# 手順・仕様書はリポジトリに含めない
+手順・仕様書/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Django / ローカル
+*.log
+db.sqlite3
+.env
+staticfiles/
+media/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
