@@ -1,46 +1,70 @@
 {% extends "base.html" %}
 {% block title %}Game{% endblock %}
 {% block content %}
-<h1>ブラックジャック</h1>
-<p>ユーザー: {{ user.username }} / ポイント: {{ user.points }}</p>
+<div class="game-board">
+  <h1>ブラックジャック</h1>
+  <p>ユーザー: {{ user.username }} / ポイント: {{ user.points }}</p>
 
-<h2>ディーラー</h2>
-<p>
-  {% for card in state.dealer %}
-    {% if state.phase == "player_turn" and forloop.counter0 == 1 %}
-      [??]
-    {% else %}
-      [{{ card.rank }}{{ card.suit }}]
+  <section class="hand-block">
+    <h2>ディーラー</h2>
+    <div class="cards-row">
+      {% for card in state.dealer %}
+        {% if state.phase == "player_turn" and forloop.counter0 == 1 %}
+          <div class="card-ui card-back">?</div>
+        {% else %}
+          <div class="card-ui suit-{{ card.suit|lower }}">
+            <span class="card-corner">{{ card.rank }}</span>
+            <span class="card-suit">
+              {% if card.suit == "S" %}♠{% elif card.suit == "H" %}♥{% elif card.suit == "D" %}♦{% else %}♣{% endif %}
+            </span>
+            <span class="card-corner card-corner-bottom">{{ card.rank }}</span>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% if state.phase == "finished" %}
+      <p>ディーラー合計: {{ dealer_total }}</p>
     {% endif %}
-  {% endfor %}
-</p>
-{% if state.phase == "finished" %}
-<p>ディーラー合計: {{ dealer_total }}</p>
-{% endif %}
+  </section>
 
-<h2>プレイヤー</h2>
-<p>
-  {% for card in state.player %}
-    [{{ card.rank }}{{ card.suit }}]
-  {% endfor %}
-</p>
-<p>プレイヤー合計: {{ player_total }}</p>
+  <section class="hand-block">
+    <h2>プレイヤー</h2>
+    <div class="cards-row">
+      {% for card in state.player %}
+        <div class="card-ui suit-{{ card.suit|lower }}">
+          <span class="card-corner">{{ card.rank }}</span>
+          <span class="card-suit">
+            {% if card.suit == "S" %}♠{% elif card.suit == "H" %}♥{% elif card.suit == "D" %}♦{% else %}♣{% endif %}
+          </span>
+          <span class="card-corner card-corner-bottom">{{ card.rank }}</span>
+        </div>
+      {% endfor %}
+    </div>
+    <p>プレイヤー合計: {{ player_total }}</p>
+  </section>
 
-{% if state.phase == "player_turn" %}
-  <form method="post" style="display:inline;">
-    {% csrf_token %}
-    <button type="submit" name="action" value="hit">ヒット</button>
-  </form>
-  <form method="post" style="display:inline;">
-    {% csrf_token %}
-    <button type="submit" name="action" value="stand">スタンド</button>
-  </form>
-{% else %}
-  <p>結果: {% if state.result == "win" %}勝ち{% elif state.result == "lose" %}負け{% else %}引き分け{% endif %}</p>
-  <form method="post" style="display:inline;">
-    {% csrf_token %}
-    <button type="submit" name="action" value="new">もう一度プレイ</button>
-  </form>
-  <a href="{% url 'top' %}">トップへ戻る</a>
-{% endif %}
+  {% if state.phase == "player_turn" %}
+    <div class="actions">
+      <form method="post">
+        {% csrf_token %}
+        <button class="btn-hit" type="submit" name="action" value="hit">ヒット</button>
+      </form>
+      <form method="post">
+        {% csrf_token %}
+        <button class="btn-stand" type="submit" name="action" value="stand">スタンド</button>
+      </form>
+    </div>
+  {% else %}
+    <div class="result-box">
+      <p>結果: {% if state.result == "win" %}勝ち{% elif state.result == "lose" %}負け{% else %}引き分け{% endif %}</p>
+      <div class="actions">
+        <form method="post">
+          {% csrf_token %}
+          <button class="btn-new" type="submit" name="action" value="new">もう一度プレイ</button>
+        </form>
+        <a href="{% url 'top' %}">トップへ戻る</a>
+      </div>
+    </div>
+  {% endif %}
+</div>
 {% endblock %}

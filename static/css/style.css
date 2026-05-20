@@ -63,3 +63,109 @@ body {
 .logout-form {
   display: inline;
 }
+
+/* 第12章: カードUI（画像を使わない） */
+.game-board {
+  background: #0b5d2a;
+  color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.hand-block {
+  margin-bottom: 20px;
+}
+
+.cards-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.card-ui {
+  width: 72px;
+  height: 100px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.card-corner {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-size: 0.8rem;
+}
+
+.card-corner-bottom {
+  top: auto;
+  left: auto;
+  right: 6px;
+  bottom: 6px;
+  transform: rotate(180deg);
+}
+
+.card-suit {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.suit-h,
+.suit-d {
+  color: #d32f2f;
+}
+
+.suit-s,
+.suit-c {
+  color: #111;
+}
+
+.card-back {
+  background: #1e3a8a;
+  color: #fff;
+  font-size: 1.4rem;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  align-items: center;
+}
+
+.actions button {
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.btn-hit {
+  background: #1e88e5;
+  color: #fff;
+}
+
+.btn-stand {
+  background: #ef6c00;
+  color: #fff;
+}
+
+.btn-new {
+  background: #2e7d32;
+  color: #fff;
+}
+
+.result-box {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+}
