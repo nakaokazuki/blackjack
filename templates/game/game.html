@@ -1,7 +1,46 @@
 {% extends "base.html" %}
 {% block title %}Game{% endblock %}
 {% block content %}
-<h1>ゲーム（準備中）</h1>
-<p>ログイン中: {{ user.username }} / ポイント: {{ user.points }}</p>
-<p><a href="{% url 'top' %}">トップへ戻る</a></p>
+<h1>ブラックジャック</h1>
+<p>ユーザー: {{ user.username }} / ポイント: {{ user.points }}</p>
+
+<h2>ディーラー</h2>
+<p>
+  {% for card in state.dealer %}
+    {% if state.phase == "player_turn" and forloop.counter0 == 1 %}
+      [??]
+    {% else %}
+      [{{ card.rank }}{{ card.suit }}]
+    {% endif %}
+  {% endfor %}
+</p>
+{% if state.phase == "finished" %}
+<p>ディーラー合計: {{ dealer_total }}</p>
+{% endif %}
+
+<h2>プレイヤー</h2>
+<p>
+  {% for card in state.player %}
+    [{{ card.rank }}{{ card.suit }}]
+  {% endfor %}
+</p>
+<p>プレイヤー合計: {{ player_total }}</p>
+
+{% if state.phase == "player_turn" %}
+  <form method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" name="action" value="hit">ヒット</button>
+  </form>
+  <form method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" name="action" value="stand">スタンド</button>
+  </form>
+{% else %}
+  <p>結果: {% if state.result == "win" %}勝ち{% elif state.result == "lose" %}負け{% else %}引き分け{% endif %}</p>
+  <form method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" name="action" value="new">もう一度プレイ</button>
+  </form>
+  <a href="{% url 'top' %}">トップへ戻る</a>
+{% endif %}
 {% endblock %}
