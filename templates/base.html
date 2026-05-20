@@ -2,25 +2,44 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Blackjack{% endblock %}</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% block extra_head %}{% endblock %}
 </head>
 <body>
-  <header>
-    <a href="{% url 'top' %}">Top</a>
-    | <a href="{% url 'user' %}">User</a>
-    {% if user.is_authenticated %}
-      | {{ user.username }}（{{ user.points }} pt）
-      <form action="{% url 'logout' %}" method="post" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit">ログアウト</button>
-      </form>
-    {% else %}
-      | <a href="{% url 'login' %}">ログイン</a>
-      | <a href="{% url 'register' %}">登録</a>
-    {% endif %}
+  <header class="site-header">
+    <nav>
+      <a href="{% url 'top' %}">Top</a>
+      | <a href="{% url 'user' %}">User</a>
+      {% if user.is_authenticated %}
+        | <span class="user-info">{{ user.username }}（{{ user.points }} pt）</span>
+        <form action="{% url 'logout' %}" method="post" class="logout-form">
+          {% csrf_token %}
+          <button type="submit">ログアウト</button>
+        </form>
+      {% else %}
+        | <a href="{% url 'login' %}">ログイン</a>
+        | <a href="{% url 'register' %}">登録</a>
+      {% endif %}
+    </nav>
   </header>
-  <main>
+
+  <main class="site-main">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
     {% block content %}{% endblock %}
   </main>
+
+  <footer class="site-footer">
+    <p>Blackjack Web App</p>
+  </footer>
+  {% block extra_body %}{% endblock %}
 </body>
 </html>

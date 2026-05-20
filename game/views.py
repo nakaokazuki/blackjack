@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -20,6 +21,13 @@ class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     template_name = "registration/signup.html"
     success_url = reverse_lazy("login")
+
+    def form_valid(self, form):
+        messages.success(
+            self.request,
+            "登録が完了しました。ログインしてください。",
+        )
+        return super().form_valid(form)
 
 
 @login_required
