@@ -3,9 +3,19 @@
 {% block content %}
 <h1>トップ</h1>
 {% if user.is_authenticated %}
-  <p>ログイン中: {{ user.username }} / ポイント: {{ user.points }}</p>
-  <p><a href="{% url 'game' %}">ゲームスタート</a></p>
+  <p>ログイン中: <strong>{{ user.username }}</strong></p>
+  <p>現在のポイント: <strong>{{ user.points }}</strong></p>
+  <p>
+    <a href="{% url 'game' %}" role="button">ゲームスタート</a>
+  </p>
+  <p><a href="{% url 'user' %}">ユーザー情報</a></p>
 {% else %}
-  <p>プレイするには<a href="{% url 'login' %}">ログイン</a>または<a href="{% url 'register' %}">登録</a>してください。</p>
+  <p>
+    <a href="{% url 'game' %}">ゲームスタート</a>
+    （未ログインの場合はログイン画面へ移動します）
+  </p>
+  <p>
+    <a href="{% url 'user' %}">ユーザー登録・ログイン</a>
+  </p>
 {% endif %}
 {% endblock %}

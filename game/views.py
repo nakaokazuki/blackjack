@@ -7,8 +7,13 @@ from .forms import CustomUserCreationForm
 
 
 def top(request):
-    """トップ（仮）。第 6 章で本格実装。"""
+    """トップ（仕様 6.1）。"""
     return render(request, "game/top.html")
+
+
+def user_page(request):
+    """ユーザー画面（仕様 6.3）。未ログインは登録・ログインへ誘導。"""
+    return render(request, "game/user.html")
 
 
 class SignUpView(CreateView):

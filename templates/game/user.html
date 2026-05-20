@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}User{% endblock %}
+{% block content %}
+<h1>ユーザー</h1>
+{% if user.is_authenticated %}
+  <h2>ユーザー情報</h2>
+  <ul>
+    <li>ユーザー名: {{ user.username }}</li>
+    <li>ポイント: {{ user.points }}</li>
+  </ul>
+  <p>ログアウトは画面上部から行えます。</p>
+  <p><a href="{% url 'top' %}">トップへ戻る</a></p>
+{% else %}
+  <p>未ログインです。次のいずれかを行ってください。</p>
+  <ul>
+    <li><a href="{% url 'register' %}">新規登録</a></li>
+    <li><a href="{% url 'login' %}">ログイン</a></li>
+  </ul>
+  <p><a href="{% url 'top' %}">トップへ戻る</a></p>
+{% endif %}
+{% endblock %}
